@@ -1,29 +1,32 @@
-pipeline {
-  agent { label 'linux'}
-  tools {
-    maven 'M2'
-  }
-  stages {
-   stage("checkout"){
-    steps {
-      git "https://github.com/cfdistortion/myProject.git"
-    }
-   }
-   stage('build') {
-     steps {
-       sh 'mvn clean compile'
+pipeline{
+
+agent{
+     label 'Linux'
      }
-   }
-   stage('Test') {
-     steps {
-       sh 'mvn test'
-       junit '**/target/surefire-reports/Test-8.xml'
+     tools{
+     maven 'M3'
      }
-   }
-   stage('Package') {
-     steps {
-       sh 'mvn package'
-     }
-   }
-  }
+     stages{
+             stage('CheckOut'){
+             steps{
+               git 'https://github.com/KAZAMA7/myProject.git'
+                }
+                }
+             stage('Maven clean'){
+               steps{
+                sh 'mvn clean compile'
+               }
+              }
+             stage('test'){
+               steps{ 
+                sh 'mvn test'
+                junit '**/target/surefire-reports/Test-8.xml'
+             }
+              }
+             stage('Package'){
+                 steps{
+                  sh 'mvn package' 
+                     }
+                 }
+            }
 }
